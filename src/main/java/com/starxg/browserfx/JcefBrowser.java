@@ -60,6 +60,9 @@ public class JcefBrowser implements BrowserView, Disposable {
       public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack,
           boolean canGoForward) {
         super.onLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
+        if (!isLoading) {
+          Settings.getInstance().setUrl(browser.getURL());
+        }
         if (Objects.nonNull(progressChangedConsumer)) {
           synchronized (this) {
             if (isLoading) {
@@ -88,7 +91,6 @@ public class JcefBrowser implements BrowserView, Disposable {
 
       @Override
       public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
-        Settings.getInstance().setUrl(browser.getURL());
         if (Objects.nonNull(progressChangedConsumer)) {
           synchronized (this) {
 
