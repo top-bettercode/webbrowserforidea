@@ -18,6 +18,7 @@ import com.shopobot.util.URL;
  */
 class Browser extends JPanel {
     private BrowserView webView;
+    private JButton btnBack;
     private JTextField txtUrl;
     private JButton btnGo;
     private JProgressBar progressBar;
@@ -37,6 +38,8 @@ class Browser extends JPanel {
     private JPanel topControls() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.add(btnBack = new ControlButton("<"));
+
 //        if (webView.type() == BrowserView.Type.JAVAFX) {
 //            panel.add(new ControlButton("DevTools") {
 //                {
@@ -75,7 +78,6 @@ class Browser extends JPanel {
                 txtUrl.setText(StringUtils.EMPTY);
                 return;
             }
-
             txtUrl.setText(s);
 
             // 没有获取焦点的时候光标回到0
@@ -84,12 +86,13 @@ class Browser extends JPanel {
             }
         }));
 
+        btnBack.addActionListener(e -> webView.back());
+
         webView.onProgressChange(e -> swingInvokeLater(() -> {
             progressBar.setVisible(e != 1.0 && e != 0);
             progressBar.setValue((int) (e * 100));
         }));
 
-        // txtUrl.setText("http://127.0.0.1:8080");
         txtUrl.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -113,6 +116,7 @@ class Browser extends JPanel {
     private void load(String url) {
         try {
             webView.load(URL.get(url).toJavaURL().toString());
+            this.btnBack.setEnabled(webView.canBack());
         } catch (Exception e) {
             webView.load("about:blank");
         }

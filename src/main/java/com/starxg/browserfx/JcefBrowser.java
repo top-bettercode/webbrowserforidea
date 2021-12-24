@@ -33,7 +33,7 @@ public class JcefBrowser implements BrowserView, Disposable {
     private Consumer<Double> progressChangedConsumer;
 
     JcefBrowser() {
-        browser = new JBCefBrowser("about:blank");
+        browser = new JBCefBrowser(Settings.getInstance().getUrl());
         cefBrowser = browser.getCefBrowser();
         cefClient = browser.getJBCefClient().getCefClient();
         JBCefClient jbCefClient = browser.getJBCefClient();
@@ -89,6 +89,7 @@ public class JcefBrowser implements BrowserView, Disposable {
 
             @Override
             public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode) {
+                Settings.getInstance().setUrl(browser.getURL());
                 if (Objects.nonNull(progressChangedConsumer)) {
                     synchronized (this) {
 

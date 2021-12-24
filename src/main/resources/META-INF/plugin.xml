@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.starxg.browserfx</id>
+    <id>com.starxg.browserfx.local</id>
     <name>Embedded Web Browser</name>
     <vendor email="591269@gmail.com" url="https://github.com/starxg/webbrowserforidea">starxg</vendor>
 
@@ -14,6 +14,9 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Embedded Web Browser" anchor="right" factoryClass="com.starxg.browserfx.BrowserWindowFactory"/>
+        <applicationService
+          serviceInterface="com.starxg.browserfx.Settings"
+          serviceImplementation="com.starxg.browserfx.Settings"/>
     </extensions>
 
     <application-components>

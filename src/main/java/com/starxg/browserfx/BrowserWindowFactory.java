@@ -45,7 +45,7 @@ public class BrowserWindowFactory implements ToolWindowFactory {
 
         try {
             if (isSupportedJCEF()) {
-                return new Browser((BrowserView) Class.forName("com.starxg.browserfx.JcefBrowser").newInstance());
+                return new Browser((BrowserView) Class.forName("com.starxg.browserfx.JcefBrowser").getDeclaredConstructor().newInstance());
             }
         } catch (Exception e) {
             Logger.getInstance(BrowserWindowFactory.class).error(e);
